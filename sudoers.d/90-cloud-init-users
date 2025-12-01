@@ -1,0 +1,4 @@
+# Created by cloud-init v. 24.4.1-0ubuntu0~20.04.3 on Mon, 01 Dec 2025 17:25:48 +0000
+
+# User rules for ikonstbai
+ikonstbai ALL=(ALL) NOPASSWD:ALL

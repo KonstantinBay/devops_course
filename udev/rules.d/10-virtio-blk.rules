@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="block", KERNEL=="vd*", ATTR{queue/max_sectors_kb}="4096"
