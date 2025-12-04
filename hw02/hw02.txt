@@ -1,0 +1,17 @@
+Домашнее задание № 2
+1. На 1-й ВМ для root создать ключи для соединения со второй ВМ
+2. Содержимое ключа .pub поместить в файл authorized_keys второй ВМ (/root/.ssh/authorized_keys)
+3. На 1-й ВМ создать скрипт hw02.sh
+#!/bin/bash
+ssh root@130.193.42.24 find /tmp -type f -name "hw02*.txt" -mtime +7 -delete
+echo 'homework020' > /home/ikonstbai/tmp/hw020.txt
+echo 'homework021' > /home/ikonstbai/tmp/hw021.txt
+rsync -avz hw02*.txt 130.193.42.24:/tmp
+
+4. Командой chmod добавить права на исполнение скрипта
+chmod +x hw02.sh
+
+5. На 1-й ВМ для cron создать задачу командой crontab -e
+Например, для запуска каждый день в 12 часов
+* 12 * * * /home/ikonstbai/tmp/hw02.sh
+
