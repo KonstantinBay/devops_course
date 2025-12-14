@@ -1,0 +1,22 @@
+---
+version: '3'
+services:
+    # Сборочный сервис
+    build_app:
+        build:
+            context: ./build_app
+        volumes:
+            - build_data:/tmp/build_data/target
+
+    # Продовый сервис
+    prod_app:
+        image: tomcat:8.0.37-jre8-alpine
+        ports:
+            - '8080:8080'
+        volumes:
+            - build_data:/usr/local/tomcat/webapps
+        depends_on:
+            - build_app
+
+volumes:
+   build_data:
