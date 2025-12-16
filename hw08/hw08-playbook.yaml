@@ -1,0 +1,51 @@
+---
+- name: provisioning build environment
+  hosts: build_app
+  become: yes
+
+  tasks:
+  - name: Ensure default-jdk package is present
+    apt:
+      name: default-jdk
+      state: present
+
+  - name: Ensure maven package is present
+    apt:
+      name: maven
+      state: present
+
+  - name: Copy build-app data
+    copy:
+      src: build_app/
+      dest: /tmp/build_data/
+
+  - name: Build app package
+    command: mvn package
+    args:
+      chdir: /tmp/build_data/
+
+  - name: Send war-file to host
+    fetch:
+      src: /tmp/build_data/target/hello-1.0.war
+      dest: /tmp/
+      flat: yes
+
+- name: provisioning prod environment
+  hosts: prod_app
+  become: yes
+
+  tasks:
+   - name: Ensure tomcat package is present
+     apt:
+       name: tomcat9
+       state: present
+
+   - name: Ensure tomcat service is started
+     service:
+       name: tomcat9
+       state: started
+
+   - name: Copy war-file to prod env
+     copy:
+       src: /tmp/hello-1.0.war
+       dest: /var/lib/tomcat9/webapps/
