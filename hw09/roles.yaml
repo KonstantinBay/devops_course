@@ -1,0 +1,14 @@
+---
+- name: provisioning build environment
+  hosts: build_app
+  become: yes
+
+  roles:
+   - build
+
+- name: provisioning prod environment
+  hosts: prod_app
+  become: yes
+
+  roles:
+   - prod

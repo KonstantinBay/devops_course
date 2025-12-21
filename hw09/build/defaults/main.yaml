@@ -1,0 +1,4 @@
+---
+# defaults file for build
+src: build_app/
+dest: /tmp/build_data/
