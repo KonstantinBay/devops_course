@@ -1,0 +1,43 @@
+---
+version: "3"
+services:
+  build_app:
+    build:
+      context: ./build_app
+    volumes:
+      - build_data:/test/target
+
+  prod_app:
+    build:
+      context: ./prod_app
+    volumes:
+      - build_data:/usr/local/tomcat/webapps
+    ports:
+      - 8081:8080
+    depends_on:
+      - build_app
+      - db
+
+  db:
+    image: mariadb
+    environment:
+      MARIADB_USER: test
+      MARIADB_PASSWORD: pass
+      MARIADB_ROOT_PASSWORD: passroot
+      MARIADB_DATABASE: hw12
+    volumes:
+      - db_data:/var/lib/maria_db
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+volumes:
+  build_data:
+  db_data:
